@@ -41,8 +41,8 @@ def checkparenthese(st):
     else:
         print("perfect !!")
 #=================================================================================================================
-# input: 12   *(34*(3 /56))
-# ouput: [12, *, (, 34, *, (, 3, /, 56, ), )]
+#input: 12   *(34*(3 /56))
+#ouput: [12, *, (, 34, *, (, 3, /, 56, ), )]
 
 # 수식문자열 (피연산자(임의길이)) 연산자(+,-,*,/) 괄호((,))로 구성관공식.
 # 를 입력 받아 totken 으로 구분하여 totken 들를 담은 List를
@@ -67,7 +67,6 @@ def totokens(strInput):
         else:
             pass
     return tokenList
-
 # 중의 표기법 로 표현한 수식을 후의 표기법 으로 변환한 결과를 반환
 def infix2postfix(strInput):
     stack = Stack()
@@ -101,8 +100,50 @@ def infix2postfix(strInput):
         queue.add(stack.pop())
     return queue
 
-st = infix2postfix("12 *(34*(3 /56))")
-st.show()
+#// ===========================================================================================================================================
+# 중의 표기법 로 표현한 수식을 저장한 queue 넘겨주면
+# stack 이용하여 계산하고 그결과값을 stack 생성
+#// ===========================================================================================================================================
+def stackCalculatur(queue):
+    stack = Stack() #계산에활용할 stack 함수 -숫자
+    while not queue.isEmpty():
+        token = queue.remove()
+
+        #token의 수 이면 stack 에저장
+        if token.isdigit():
+            stack.push(int(token))
+        else:
+        # 연산자 계산한뒤 결과를 다시 stack 에 저장
+            b = stack.pop()
+            a = stack.pop()
+        #연산자 에종류에따른 게산을 하소 결과는 stack에저장
+            if token == '+':
+                stack.push(a+b)
+            elif token == '-':
+                stack.push(a-b)
+            elif token == '*':
+                stack.push(a*b)
+            elif token == '/':
+                stack.push(a/b)
+            else:
+                pass
+
+    return stack.pop()
+
+
+
+
+
+
+
+
+st = "((9 - (4 / 2 + 1)) * (5 * 2 - 2 )) +23-23"
+
+q = infix2postfix(st)
+print("후위표기법결과 : ",q)
+
+r = stackCalculatur(q)
+print("계산결과 : ",r**2)
 
 
 
@@ -110,5 +151,5 @@ st.show()
 
 
 # ============================================================================================================================================================================================================================
-# ps = "([{ }[ ]] < >)"
-# checkparenthese(ps)
+#ps = "([{ }[ ]] < >)"
+#checkparenthese(ps)

@@ -11,6 +11,19 @@ class DList:
         self.tail = None    # 리스트의 마지막 노드
         self.count = 0
 
+    def __str__(self):
+        retstr = "" # 반환할 문자열(초기값은 빈문자열)
+        currentNode = self.head #이중연결리스트 해드부터 차래대러 방문예정
+        while currentNode != None:
+            # 방문의 data값 retstr에 출력
+            retstr += currentNode.data + " "
+            currentNode = currentNode.next
+        # 누적된 결과 문자열반환
+        return retstr
+
+
+
+
     # 리스트의 첫노드부터 끝까지 차레러 출력
 
     def show(self, showOrder="FORWARD"):
@@ -177,7 +190,9 @@ class Queue(DList):
         if self.isEmpty():
             raise QueueUnderFlow("Queue is Empty!!")
         else:
+            retvalue = self.head.data
             super().remove(self.head)
+            return retvalue
 
 
 
