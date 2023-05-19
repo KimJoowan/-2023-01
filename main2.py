@@ -130,20 +130,13 @@ def stackCalculatur(queue):
 
     return stack.pop()
 
-
-
-
-
-
-
-
-st = "((9 - (4 / 2 + 1)) * (5 * 2 - 2 )) +23-23"
+#st = "((9 - (4 / 2 + 1)) * (5 * 2 - 2 )) +23-23"
 
 q = infix2postfix(st)
 print("후위표기법결과 : ",q)
 
 r = stackCalculatur(q)
-print("계산결과 : ",r**2)
+print("계산결과 : ",r)
 
 
 
