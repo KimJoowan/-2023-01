@@ -9,18 +9,23 @@ class BTree:
         #return f"[{self.item}]"
         return self.node()
 
+    #자식이 있으면 ture
+    def hasNoChild(self):
+        return self.left == None and self.right == None
+
 
     def node(self): #노드의 현재 상황(왼쪽값 자신 오른족값)을 문자열 로반환한다
-        r = "["
+        r = "[ "
         if self.left:
             r += str(self.left.item) + " <- "
         else:
             r += "None <- "
         r += str(self.item)
         if self.right:
-            r += " -> "+ str(self.right.item) + "]"
+            r += " " \
+                 "-> "+ str(self.right.item) + "]"
         else:
-            r += " -> None ]"
+            r += "-> None ]"
         return  r
 
     def preOrder(self):
@@ -159,7 +164,6 @@ class BSTree(BTree):
 
     def minunumvalue(self):
         correntNode = self
-
         while correntNode.left:
             correntNode = correntNode.left
 
@@ -171,10 +175,42 @@ class BSTree(BTree):
             correntNode = correntNode.left
         return correntNode
 
+    #주어진 트리에서 가장 작은 값을 찻아서 삭제한다.
+    def deleteMinimum(self):
+        if self.left == None:
+            return self.right
+        self.left = self.left.deleteMinimum()
+        return self
+
     #BSTree 에서 값을 가진 노드를 찻아서 삭제하고 BSTree를 유지할수있게 수정한다
     def deletevalue(self, value):
-        return None
+        if value < self.item: # 찻는값이 현재노드보다 작은경우
+            if self.left: # 왼쪽자식이 있으면 왼쪽 자식에게 떠넘기고 겱과를(왼쪽의 root)로 업데이트
+                self.left = self.left.deletevalue(value)
+            else:
+                return self
+        elif value > self.item:
+            if self.right:
+                self.right = self.right.deletevalue(value)
+            else:
+                return self
+        else: #현재노드가 삭제 대상인 경우
+            if self.hasNoChild():
+                return None
+            if self.left == None:
+                return self.right
+            if self.right == None:
+                return self.left
+
+            taget = self
+            seccessor = taget.right.minunumnode()
+            seccessor.right = taget.right.deleteMinimum()
+            seccessor.left = taget.left
+            return seccessor
+        return self #현재 노드가 살아있는 경우 현재노드가 계속 보스임을 부모에게 날닌다.
+
 #=============================================================================================================
+
 root = BSTree(100)
 root.insert(200)
 root.insert(150)
@@ -184,9 +220,10 @@ root.insert(300)
 root.insert(350)
 root.insert(1050)
 
-print(root.find(100).minunumnode())
-
-
+print("Bofors: ", root)
+root = root.deletevalue(100)
+print("After: ", root)
+print(root.find(200))
 
 
 
